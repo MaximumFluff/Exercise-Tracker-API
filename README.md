@@ -2,6 +2,11 @@
 
 #### A microservice project, part of Free Code Camp's curriculum
 
+## How to use
+You can test this project from this link: https://grey-spirit.glitch.me/
+Instructions for usage can be found at that link.
+
+
 ### User Stories
 
 1. I can create a user by posting form data username to /api/exercise/new-user and returned will be an object with username and _id.
