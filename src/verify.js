@@ -3,21 +3,30 @@ function enforceDateFormat(datestring) {
   return regex.test(datestring);
 }
 
-function checkBoundaries(from, to, data) {
-    const filtered = [];
+function filterWithBoundaries(from, to, data) {
+    let filtered = [];
     if (from && !to) {
-      filtered = data.filter(item => item.date >= from);
+      filtered = data.filter(item => {
+        const newDate = new Date(item.date);
+        return newDate >= from;
+      });
     }
     else if (!from && to) {
-      filtered = data.filter(item => item.date <= to);
+      filtered = data.filter(item => {
+        const newDate = new Date(item.date);
+        return newDate <= to;
+      });
     }
-    else {
-      filtered = data.filter(item => item.date >= from && item.date <= to);
+    else if (from && to) {
+      filtered = data.filter(item => {
+        const newDate = new Date(item.date);
+        return newDate >= from && newDate <= to;
+      });
     }
     return filtered;
 }
 
 module.exports = {
   enforceDateFormat,
-  checkBoundaries,
+  filterWithBoundaries,
 }

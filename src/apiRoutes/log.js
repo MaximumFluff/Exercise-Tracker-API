@@ -1,6 +1,6 @@
 const express = require('express')
 const { Username, Exercise } = require('../models');
-const { enforceDateFormat, checkBoundaries } = require('../verify');
+const { enforceDateFormat, filterWithBoundaries } = require('../verify');
 const router = express.Router();
 
 router.get('/', (req, res) => {
@@ -8,8 +8,8 @@ router.get('/', (req, res) => {
     res.json({ error: 'userId is a required parameter' });
   }
 
-  if (from || to) {
-    if (!enforceDateFormat(from) || !enforceDateFormat(to)) {
+  if (req.query.from || req.query.to) {
+    if (!enforceDateFormat(req.query.from) || !enforceDateFormat(req.query.to)) {
       res.json({ error: 'Invalid format for from/to (must be YYYY-MM-DD)'})
     }
   }
@@ -45,12 +45,12 @@ router.get('/', (req, res) => {
             });
           }
           else {
-            const filteredLog = checkBoundaries(from, to, log);
+            const filteredLog = filterWithBoundaries(from, to, log);
             res.json({
               _id: found._id,
               username: found.username,
               count: log.length,
-              filteredLog, 
+              log: filteredLog, 
             });
           }
         })
